@@ -44,7 +44,7 @@ class Ui_Form(object):
         self.open_weight_path.setGeometry(QtCore.QRect(170, 30, 561, 20))
         self.open_weight_path.setObjectName("open_weight_path")
         #------ 权重文件默认参数设置-----#
-        self.open_weight_path.setText("D:/deeplearnITERM/yolox-pytorch/logs/not_zip/ep100-loss2.684-val_loss2.612.pth")
+        self.open_weight_path.setText("E:/SOLIDWORKS_DEPL/Items/YOLOX_GRA/logs/not_zip/ep100-loss2.684-val_loss2.612.pth")
         self.yolo._defaults["model_path"] = self.open_weight_path.text()
         #------ 权重文件默认参数设置-----#
         self.select_weith_pth_button = QtWidgets.QPushButton(self.groupBox)
@@ -64,7 +64,7 @@ class Ui_Form(object):
         self.open_video_path = QtWidgets.QLineEdit(self.tab_2)
         self.open_video_path.setGeometry(QtCore.QRect(70, 20, 401, 20))
         self.open_video_path.setObjectName("open_video_path")
-        self.open_video_path.setText("D:/deeplearnITERM/yolo3-pytorch/myVideoSave/origin/origin/springnorth.mp4")
+        self.open_video_path.setText("E:/SOLIDWORKS_DEPL/yoloVideo/录制_2022_01_17_10_42_45_537.mp4")
         self.open_video_button = QtWidgets.QPushButton(self.tab_2)
         self.open_video_button.setGeometry(QtCore.QRect(490, 20, 71, 20))
         self.open_video_button.setObjectName("open_video_button")
@@ -86,7 +86,7 @@ class Ui_Form(object):
         self.open_classes_path.setGeometry(QtCore.QRect(170, 60, 561, 20))
         self.open_classes_path.setObjectName("open_classes_path")
         #------ classes.txt文件默认参数设置-----#
-        self.open_classes_path.setText("D:/deeplearnITERM/yolox-pytorch/model_data/my_classes.txt")
+        self.open_classes_path.setText("E:/SOLIDWORKS_DEPL/Items/Myyolo/model_data/my_classes.txt")
         self.yolo._defaults["classes_path"] = self.open_classes_path.text()
         #------ classes.txt文件默认参数设置-----#
         self.select_classes_txt_button = QtWidgets.QPushButton(self.groupBox)
@@ -169,6 +169,9 @@ class Ui_Form(object):
         self.distEdit = QtWidgets.QLineEdit(self.groupBox_2)
         self.distEdit.setGeometry(QtCore.QRect(430, 62, 113, 20))
         self.distEdit.setObjectName("distEdit")
+        self.textEdit = QtWidgets.QTextEdit(self.groupBox_3)
+        self.textEdit.setGeometry(QtCore.QRect(10, 20, 511, 121))
+        self.textEdit.setObjectName("textEdit")
         self.groupBox_4 = QtWidgets.QGroupBox(Form)
         self.groupBox_4.setGeometry(QtCore.QRect(870, 550, 541, 151))
         self.groupBox_4.setObjectName("groupBox_4")
@@ -190,7 +193,7 @@ class Ui_Form(object):
         self.cap = cv2.VideoCapture(0)
         #FPS
         self.fps = 0.0
-
+        self.distMode = 0
         #定时器信号与槽的连接
         self.timer_camera1.timeout.connect(self.show_camera)
         self.timer_camera3.timeout.connect(self.show_video)
@@ -538,17 +541,19 @@ class Ui_Form(object):
             try:
                 if self.distMode == 0 :
                     curDist = random.randint(200,250)
-                    self.distEdit.setText(curDist)
+                    self.distEdit.setText(str(curDist))
                 elif self.distMode == 1:
                     curDist = self.distEdit.text()
                 else: print('dist设置错误')
-                if   x == 1 and curDist < 200 :
+                if   x == 1 and int(curDist) < 200 :
                     send_datas=bytearray([0x01,0x0d,0x0a])
                     strsend = time.strftime("%Y-%m-%d %H:%M:%S")+"已发送数据：1"
                 elif x == 0:
                     send_datas=bytearray([0x00,0x0d,0x0a])
                     strsend = time.strftime("%Y-%m-%d %H:%M:%S")+"已发送数据：0"
-                else: print('参数输入0或1')
+                else: 
+                    send_datas=bytearray([0x00,0x0d,0x0a])
+                    strsend = time.strftime("%Y-%m-%d %H:%M:%S")+"已发送数据：0"
                 print(send_datas)
                 self.ser.write(send_datas)
                 #将byte转换为 int
