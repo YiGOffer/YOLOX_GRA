@@ -9,3 +9,4 @@ myVideoSave
 yolo_weights.pth
 __pycache__
 map_out
+model_data
