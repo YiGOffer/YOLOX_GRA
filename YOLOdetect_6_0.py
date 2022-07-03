@@ -13,11 +13,11 @@ from PyQt5.QtGui import *
 import sys
 import cv2
 import time
+import random
 import numpy as np
 from PIL import Image
 from yolo import YOLO
 import serial
-import struct
 class Ui_Form(object):
     def setupUi(self, Form):
         # yolo对象创建
@@ -166,9 +166,9 @@ class Ui_Form(object):
         self.groupBox_3 = QtWidgets.QGroupBox(Form)
         self.groupBox_3.setGeometry(QtCore.QRect(870, 370, 541, 161))
         self.groupBox_3.setObjectName("groupBox_3")
-        self.textEdit = QtWidgets.QTextEdit(self.groupBox_3)
-        self.textEdit.setGeometry(QtCore.QRect(10, 20, 511, 121))
-        self.textEdit.setObjectName("textEdit")
+        self.distEdit = QtWidgets.QLineEdit(self.groupBox_2)
+        self.distEdit.setGeometry(QtCore.QRect(430, 62, 113, 20))
+        self.distEdit.setObjectName("distEdit")
         self.groupBox_4 = QtWidgets.QGroupBox(Form)
         self.groupBox_4.setGeometry(QtCore.QRect(870, 550, 541, 151))
         self.groupBox_4.setObjectName("groupBox_4")
@@ -190,7 +190,7 @@ class Ui_Form(object):
         self.cap = cv2.VideoCapture(0)
         #FPS
         self.fps = 0.0
-        
+
         #定时器信号与槽的连接
         self.timer_camera1.timeout.connect(self.show_camera)
         self.timer_camera3.timeout.connect(self.show_video)
@@ -203,7 +203,8 @@ class Ui_Form(object):
         self.select_weith_pth_button.clicked.connect(self.open_select_weight_click)
         self.select_classes_txt_button.clicked.connect(self.open_select_classes_txt_click)
         self.start_open_uart_button.clicked.connect(self.botton_open_ser_cliked)
-        
+        self.diyDisNum.clicked.connect(self.diy_distanceNum_click)
+        self.autoDisNum.clicked.connect(self.auto_distanceNum_click)
         #串口打开标志位，用于检测结果的输出开闭
         self.uartOpenFlag = 0
 
@@ -213,7 +214,7 @@ class Ui_Form(object):
 
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
-        Form.setWindowTitle(_translate("Form", "YoloV深度学习目标检测与通信平台"))
+        Form.setWindowTitle(_translate("Form", "电动拖拉机刹车系统检测平台"))
         self.label_left.setText(_translate("Form", "等待摄像头连接。。。"))
         self.label_right.setText(_translate("Form", "等待开始检测。。。"))
         self.groupBox.setTitle(_translate("Form", "检测操作区"))
@@ -234,15 +235,13 @@ class Ui_Form(object):
         self.label_10.setText(_translate("Form", "TimeOut："))
         self.start_open_uart_button.setText(_translate("Form", "打开串口"))
         self.label.setText(_translate("Form", "检测距离："))
-        self.distantNum.setText(_translate("Form", "0"))
         self.diyDisNum.setText(_translate("Form", "自定义"))
         self.autoDisNum.setText(_translate("Form", "自动"))
         self.groupBox_3.setTitle(_translate("Form", "载入信息显示"))
         self.groupBox_4.setTitle(_translate("Form", "串口收发"))
         #选择文件夹
         self._translate = QtCore.QCoreApplication.translate
-        
-    
+
     def open_select_weight_click(self):
         # _translate = QtCore.QCoreApplication.translate
         self.directory_weight = QFileDialog.getOpenFileName(None, "选择文件", "H:/")
@@ -250,7 +249,7 @@ class Ui_Form(object):
         if(self.directory_weight[0] != ""):
             self.yolo._defaults["model_path"]=weight_path
             self.open_weight_path.setText(self._translate("Form", weight_path))
-        
+
 
     def open_select_classes_txt_click(self):
         # _translate = QtCore.QCoreApplication.translate
@@ -261,7 +260,7 @@ class Ui_Form(object):
             self.open_classes_path.setText(self._translate("Form", classes_path))
        
         
-        
+
     def open_select_video_click(self):
         # _translate = QtCore.QCoreApplication.translate
         self.directory1 = QFileDialog.getOpenFileName(None, "选择文件", "H:/")
@@ -479,7 +478,12 @@ class Ui_Form(object):
 
 
         self.label_right.setPixmap(QtGui.QPixmap.fromImage(showImage))
-    
+    def diy_distanceNum_click(self):
+        self.distMode = 1 # 0 不可编辑  1 可编辑
+
+    def auto_distanceNum_click(self):
+        self.distMode = 0 # 0 不可编辑  1 可编辑
+        
     #-------------------------串口模块----------------------------#
     def get_port_list():
         """
@@ -532,7 +536,13 @@ class Ui_Form(object):
     #串口发送
     def send_msg(self,x):
             try:
-                if   x == 1:
+                if self.distMode == 0 :
+                    curDist = random.randint(200,250)
+                    self.distEdit.setText(curDist)
+                elif self.distMode == 1:
+                    curDist = self.distEdit.text()
+                else: print('dist设置错误')
+                if   x == 1 and curDist < 200 :
                     send_datas=bytearray([0x01,0x0d,0x0a])
                     strsend = time.strftime("%Y-%m-%d %H:%M:%S")+"已发送数据：1"
                 elif x == 0:
@@ -543,8 +553,7 @@ class Ui_Form(object):
                 self.ser.write(send_datas)
                 #将byte转换为 int
                 # pre_datas = int.from_bytes(send_datas, byteorder='big', signed=False)
-                
-                
+                # strsend = time.strftime("%Y-%m-%d %H:%M:%S")+"已发送数据：" + str(pre_datas)
                 self.textEdit_Uart.append(strsend)
             except Exception as exc:
                 self.textEdit_Uart.append("发送异常")
