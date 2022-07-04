@@ -115,9 +115,9 @@ class YOLOPAFPN(nn.Module):
             depthwise = depthwise,
             act = act,
         )  
-        self.ca_1 = CA(int(in_channels[2] * width)) # 对应dark5输出的1024维度通道
+        self.ca_3 = CA(int(in_channels[2] * width)) # 对应dark5输出的1024维度通道
         self.ca_2 = CA(int(in_channels[1] * width))   # 对应dark4输出的512维度通道
-        self.ca_3 = CA(int(in_channels[0] * width))   # 对应dark3输出的256维度通道
+        self.ca_1 = CA(int(in_channels[0] * width))   # 对应dark3输出的256维度通道
 
         #-------------------------------------------#
         #   40, 40, 512 -> 40, 40, 256
