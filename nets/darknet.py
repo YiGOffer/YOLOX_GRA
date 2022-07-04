@@ -3,13 +3,17 @@
 # Copyright (c) Megvii, Inc. and its affiliates.
 
 import torch
-from torch import nn
-
+from torch import nn 
+import torch.nn.functional as F
 class SiLU(nn.Module):
     @staticmethod
     def forward(x):
         return x * torch.sigmoid(x)
 
+class Mish(nn.Module):
+    @staticmethod
+    def forward(x):
+        return x * torch.tanh(F.softplus(x))
 def get_activation(name="silu", inplace=True):
     if name == "silu":
         module = SiLU()
@@ -17,6 +21,10 @@ def get_activation(name="silu", inplace=True):
         module = nn.ReLU(inplace=inplace)
     elif name == "lrelu":
         module = nn.LeakyReLU(0.1, inplace=inplace)
+    elif name == "mish":
+        module = Mish()
+    elif name == "relu6":
+        module = nn.ReLU6(inplace=inplace)
     else:
         raise AttributeError("Unsupported act type: {}".format(name))
     return module
