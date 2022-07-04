@@ -115,9 +115,9 @@ class YOLOPAFPN(nn.Module):
             depthwise = depthwise,
             act = act,
         )  
-        self.cbam_1 = CA(int(in_channels[2] * width)) # 对应dark5输出的1024维度通道
-        self.cbam_2 = CA(int(in_channels[1] * width))   # 对应dark4输出的512维度通道
-        self.cbam_3 = CA(int(in_channels[0] * width))   # 对应dark3输出的256维度通道
+        self.ca_1 = CA(int(in_channels[2] * width)) # 对应dark5输出的1024维度通道
+        self.ca_2 = CA(int(in_channels[1] * width))   # 对应dark4输出的512维度通道
+        self.ca_3 = CA(int(in_channels[0] * width))   # 对应dark3输出的256维度通道
 
         #-------------------------------------------#
         #   40, 40, 512 -> 40, 40, 256
@@ -170,7 +170,9 @@ class YOLOPAFPN(nn.Module):
     def forward(self, input):
         out_features            = self.backbone.forward(input)
         [feat1, feat2, feat3]   = [out_features[f] for f in self.in_features]
-
+        feat1 = self.ca_1(feat1)
+        feat2 = self.ca_2(feat2)
+        feat3 = self.ca_3(feat3)
         #-------------------------------------------#
         #   20, 20, 1024 -> 20, 20, 512
         #-------------------------------------------#
