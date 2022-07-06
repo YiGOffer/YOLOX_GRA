@@ -194,6 +194,7 @@ class Ui_Form(object):
         #FPS
         self.fps = 0.0
         self.distMode = 0
+        self.sendMsgIndex = 0
         #定时器信号与槽的连接
         self.timer_camera1.timeout.connect(self.show_camera)
         self.timer_camera3.timeout.connect(self.show_video)
@@ -323,8 +324,8 @@ class Ui_Form(object):
         
         # if self.video_save_path!="":
         #     fourcc  = cv2.VideoWriter_fourcc(*'XVID')
-            
-            
+        
+        
         #     size    = (int(self.cap.get(cv2.CAP_PROP_FRAME_WIDTH)), int(self.cap.get(cv2.CAP_PROP_FRAME_HEIGHT)))
         #     out     = cv2.VideoWriter(self.video_save_path, fourcc, self.video_fps, size)
         #-----------------------#
@@ -539,21 +540,28 @@ class Ui_Form(object):
     #串口发送
     def send_msg(self,x):
             try:
-                if self.distMode == 0 :
-                    curDist = random.randint(200,250)
+                self.tranPoint1 = 100
+                self.prefixFormatMsg = str(self.sendMsgIndex) + time.strftime("%Y-%m-%d %H:%M:%S")
+                if self.distMode == 0 :  # 0 不可编辑  1 可编辑
+                    if self.sendMsgIndex < self.tranPoint1:
+                        curDist = random.randint(400,420) - (self.sendMsgIndex * random.randint(6,10))
+                        
+                    elif self.sendMsgIndex >= self.tranPoint1:
+                        curDist = random.randint(198,250)
                     self.distEdit.setText(str(curDist))
                 elif self.distMode == 1:
                     curDist = self.distEdit.text()
                 else: print('dist设置错误')
+
                 if   x == 1 and int(curDist) < 200 :
                     send_datas=bytearray([0x01,0x0d,0x0a])
-                    strsend = time.strftime("%Y-%m-%d %H:%M:%S")+"已发送数据：1"
+                    strsend = self.prefixFormatMsg + time.strftime("%Y-%m-%d %H:%M:%S")+"已发送数据：1" 
                 elif x == 0:
                     send_datas=bytearray([0x00,0x0d,0x0a])
-                    strsend = time.strftime("%Y-%m-%d %H:%M:%S")+"已发送数据：0"
+                    strsend = self.prefixFormatMsg +"已发送数据：0"
                 else: 
                     send_datas=bytearray([0x00,0x0d,0x0a])
-                    strsend = time.strftime("%Y-%m-%d %H:%M:%S")+"已发送数据：0"
+                    strsend = self.prefixFormatMsg +"已发送数据：0"
                 print(send_datas)
                 self.ser.write(send_datas)
                 #将byte转换为 int
