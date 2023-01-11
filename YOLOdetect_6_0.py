@@ -44,7 +44,7 @@ class Ui_Form(object):
         self.open_weight_path.setGeometry(QtCore.QRect(170, 30, 561, 20))
         self.open_weight_path.setObjectName("open_weight_path")
         #------ 权重文件默认参数设置-----#
-        self.open_weight_path.setText("E:/SOLIDWORKS_DEPL/Items/YOLOX_GRA/logs/not_zip/ep100-loss2.684-val_loss2.612.pth")
+        self.open_weight_path.setText("E:/Graduate/已训练权重以及结果/不同网络机制比较/yoloX_ECA_Mish_mAP89.1/ep200-loss2.422-val_loss2.701.pth")
         self.yolo._defaults["model_path"] = self.open_weight_path.text()
         #------ 权重文件默认参数设置-----#
         self.select_weith_pth_button = QtWidgets.QPushButton(self.groupBox)
@@ -86,7 +86,7 @@ class Ui_Form(object):
         self.open_classes_path.setGeometry(QtCore.QRect(170, 60, 561, 20))
         self.open_classes_path.setObjectName("open_classes_path")
         #------ classes.txt文件默认参数设置-----#
-        self.open_classes_path.setText("E:/SOLIDWORKS_DEPL/Items/Myyolo/model_data/my_classes.txt")
+        self.open_classes_path.setText("E:/Graduate/Code/YOLOX_GRA/model_data/my_classes.txt")
         self.yolo._defaults["classes_path"] = self.open_classes_path.text()
         #------ classes.txt文件默认参数设置-----#
         self.select_classes_txt_button = QtWidgets.QPushButton(self.groupBox)
