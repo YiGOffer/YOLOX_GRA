@@ -12,7 +12,8 @@ matplotlib.rcParams['font.family'] = 'sans-serif'
 # 解决负号'-'显示为方块的问题
 matplotlib.rcParams['axes.unicode_minus'] = False
 
-x = np.linspace(0, 2, 100)  # 创建等差数列 0-2之间100个
+# 读取文件 
+with open()
 
 plt.plot(x, x, label="line1")  # 第一个参数为横坐标 第二个为纵坐标 第三个为曲线名字
 plt.plot(x, x ** 2, label="line2")

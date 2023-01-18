@@ -18,6 +18,10 @@ import numpy as np
 from PIL import Image
 from yolo import YOLO
 import serial
+import matplotlib.pyplot as plt
+import matplotlib
+import json
+import os
 class Ui_Form(object):
     def setupUi(self, Form):
         # yolo对象创建
@@ -64,7 +68,7 @@ class Ui_Form(object):
         self.open_video_path = QtWidgets.QLineEdit(self.tab_2)
         self.open_video_path.setGeometry(QtCore.QRect(70, 20, 401, 20))
         self.open_video_path.setObjectName("open_video_path")
-        self.open_video_path.setText("E:/SOLIDWORKS_DEPL/yoloVideo/录制_2022_01_17_10_42_45_537.mp4")
+        self.open_video_path.setText("E:/Graduate/istockphoto-1305469222-640_adpp_is.mp4")
         self.open_video_button = QtWidgets.QPushButton(self.tab_2)
         self.open_video_button.setGeometry(QtCore.QRect(490, 20, 71, 20))
         self.open_video_button.setObjectName("open_video_button")
@@ -189,6 +193,10 @@ class Ui_Form(object):
         self.timer_camera1 = QtCore.QTimer()#摄像头显示
         self.timer_camera2 = QtCore.QTimer()#检测画面显示
         self.timer_camera3 = QtCore.QTimer()#视频显示 
+        # 曲线图数组
+        self.arr_fps= [] # fps 变化
+        self.spend = [] # 时间刻度
+        self.start_time = 0
         # 摄像头对象创建
         self.cap = cv2.VideoCapture(0)
         #FPS
@@ -218,10 +226,10 @@ class Ui_Form(object):
 
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
-        Form.setWindowTitle(_translate("Form", "电动拖拉机刹车系统检测平台"))
+        Form.setWindowTitle(_translate("Form", "电动拖拉机视觉辅助刹车系统检测平台"))
         self.label_left.setText(_translate("Form", "等待摄像头连接。。。"))
         self.label_right.setText(_translate("Form", "等待开始检测。。。"))
-        self.groupBox.setTitle(_translate("Form", "检测操作区"))
+        self.groupBox.setTitle(_translate("Form", "检测配置区"))
         self.label_3.setText(_translate("Form", "权重文件路径："))
         self.select_weith_pth_button.setText(_translate("Form", "浏览"))
         self.open_camera_button.setText(_translate("Form", "打开摄像头"))
@@ -233,7 +241,7 @@ class Ui_Form(object):
         self.start_YOLOdetect_button.setText(_translate("Form", "开始YOLO检测"))
         self.select_classes_txt_button.setText(_translate("Form", "浏览"))
         self.label_7.setText(_translate("Form", "classes.txt文件路径："))
-        self.groupBox_2.setTitle(_translate("Form", "串口输出操作区"))
+        self.groupBox_2.setTitle(_translate("Form", "串口\雷达输出操作区"))
         self.label_8.setText(_translate("Form", "串口名："))
         self.label_9.setText(_translate("Form", "波特率："))
         self.label_10.setText(_translate("Form", "TimeOut："))
@@ -319,15 +327,17 @@ class Ui_Form(object):
         # self.t1 = time.time()
         flag, self.image = self.cap.read()
         if not flag:
-            raise ValueError("未能正确读取摄像头（视频），请注意是否正确安装摄像头（是否正确填写视频路径）。")
+            self.label_left.clear()
+            self.label_right.clear()
+            self.image = NULL
+            return
         
-        
-        # if self.video_save_path!="":
+        # if self.video_img_save_path!="":
         #     fourcc  = cv2.VideoWriter_fourcc(*'XVID')
         
         
         #     size    = (int(self.cap.get(cv2.CAP_PROP_FRAME_WIDTH)), int(self.cap.get(cv2.CAP_PROP_FRAME_HEIGHT)))
-        #     out     = cv2.VideoWriter(self.video_save_path, fourcc, self.video_fps, size)
+        #     out     = cv2.VideoWriter(self.video_img_save_path, fourcc, self.video_fps, size)
         #-----------------------#
         # 用于保存图像
         #-----------------------#
@@ -370,15 +380,18 @@ class Ui_Form(object):
         #self.t1 = time.time()
         flag, self.image = self.cap.read()
         if not flag:
-            raise ValueError("未能正确读取摄像头（视频），请注意是否正确安装摄像头（是否正确填写视频路径）。")
+            self.label_left.clear()
+            self.label_right.clear()
+            self.image = NULL
+            return
         
         
-        # if self.video_save_path!="":
+        # if self.video_img_save_path!="":
         #     fourcc  = cv2.VideoWriter_fourcc(*'XVID')
             
             
         #     size    = (int(self.cap.get(cv2.CAP_PROP_FRAME_WIDTH)), int(self.cap.get(cv2.CAP_PROP_FRAME_HEIGHT)))
-        #     out     = cv2.VideoWriter(self.video_save_path, fourcc, self.video_fps, size)
+        #     out     = cv2.VideoWriter(self.video_img_save_path, fourcc, self.video_fps, size)
         #-----------------------#
         # 用于保存图像
         #-----------------------#
@@ -419,18 +432,21 @@ class Ui_Form(object):
     
     #检测结果画面
     def button_detect_camera_click(self):
+        
         if  self.timer_camera1.isActive() == False and self.timer_camera3.isActive() == False :
             self.textEdit.append('未获取到图像源，请检查视频或摄像头是否打开')
             return 
         elif self.open_classes_path.text() == '' or self.open_weight_path.text() =='':
             self.textEdit.append('未成功生成yolo模型。。。请检查是否选择了权重文件或者classes.txt文件路径')
             return
-        elif self.timer_camera2.isActive() == False:
+        elif self.timer_camera2.isActive() == False and (self.timer_camera1.isActive() == True or self.timer_camera3.isActive() == True)  :
+            self.start_time = time.time()
             self.textEdit.append('模型加载完毕！')
             self.yolo.yoloinit()
             self.timer_camera2.start(30)
             self.start_YOLOdetect_button.setText(u'停止YOLO检测')
         else:
+            self.show_res_flow_image() # 显示曲线图
             self.timer_camera2.stop()
             self.label_right.clear()
             self.timer_camera1.stop()
@@ -439,11 +455,15 @@ class Ui_Form(object):
             self.start_YOLOdetect_button.setText(u'开始YOLO检测')
             self.open_camera_button.setText(u'打开摄像头')
             self.start_video_button.setText(u'打开视频')
-            
+        
     def show_Detected_camera(self):
+        try:
+            # 格式转变，BGRtoRGB
+            frame = cv2.cvtColor(self.image,cv2.COLOR_BGR2RGB)
+        except cv2.error:
+            self.button_detect_camera_click()
+            return
         t2 = time.time()
-        # 格式转变，BGRtoRGB
-        frame = cv2.cvtColor(self.image,cv2.COLOR_BGR2RGB)
         # 转变成Image
         frame = Image.fromarray(np.uint8(frame))
         # 进行检测
@@ -474,6 +494,10 @@ class Ui_Form(object):
             frame = cv2.resize(frame, (int(width * height_new / height), height_new))
         #FPS绘制
         self.fps  = ( self.fps + (1./(time.time()-t2)) ) / 2
+        #图表数据拼装
+        self.arr_fps.append(self.fps)
+        self.spend.append(time.time() - self.start_time) 
+        # self.fps  = 30.09
         print("检测视频fps= %.2f"%(self.fps))
         show = cv2.putText(frame, "fps= %.2f"%(self.fps), (0, 40), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
         show = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
@@ -594,6 +618,40 @@ class Ui_Form(object):
                     print("串口关闭异常", exc)
     #------------------------串口----------------------------------#
 
+    # 显示曲线图
+    def show_res_flow_image(self) :
+        outPutArr = []
+        
+        
+        file_name = os.path.split(self.open_video_path.text())[1]
+        file_path = "./dataOutput/"
+
+        if not os.path.exists(file_path):  #判断是否存在文件夹如果不存在则创建为文件夹
+            os.makedirs(file_path)
+        img_save_path = file_path  + file_name + ".jpg"
+        data_save_path = file_path  + file_name + ".json"
+
+        # 指定默认字体
+        matplotlib.rcParams['font.sans-serif'] = ['SimHei']
+        matplotlib.rcParams['font.family'] = 'sans-serif'
+        # 解决负号'-'显示为方块的问题
+        matplotlib.rcParams['axes.unicode_minus'] = False
+        
+        outPutArr.append(self.spend)
+        outPutArr.append(self.arr_fps)
+        outPutJson = json.dumps(outPutArr, ensure_ascii=False)
+        with open(data_save_path, 'w') as f:    #设置文件对象
+            f.write(outPutJson)                 #将字符串写入文件中
+        # x = np.linspace(0, 2, 100)  # 创建等差数列 0-2之间100个
+        plt.plot(self.spend, self.arr_fps, label="line one")  # 第一个参数为横坐标 第二个为纵坐标 第三个为曲线名字
+        # plt.plot(x, x ** 2, label="line2")
+        # plt.plot(x,x**3,label="line3")
+        plt.xlabel("x 时间")  # x轴名字
+        plt.ylabel("y fps")#y轴名字
+        plt.title("fps变化")#图标名字
+        plt.legend()#显示图例
+        plt.savefig(img_save_path)
+        plt.show()#生成图表
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     #splash = QSplashScreen(QPixmap(".\\data\\source_image\\logo.png"))
