@@ -441,6 +441,8 @@ class Ui_Form(object):
             return
         elif self.timer_camera2.isActive() == False and (self.timer_camera1.isActive() == True or self.timer_camera3.isActive() == True)  :
             self.start_time = time.time()
+            self.arr_fps.clear()
+            self.spend.clear()
             self.textEdit.append('模型加载完毕！')
             self.yolo.yoloinit()
             self.timer_camera2.start(30)
