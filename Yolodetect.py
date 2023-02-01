@@ -68,7 +68,7 @@ class Ui_Form(object):
         self.open_video_path = QtWidgets.QLineEdit(self.tab_2)
         self.open_video_path.setGeometry(QtCore.QRect(70, 20, 401, 20))
         self.open_video_path.setObjectName("open_video_path")
-        self.open_video_path.setText("E:/Graduate/istockphoto-1305469222-640_adpp_is.mp4")
+        self.open_video_path.setText("E:/Graduate/animal480p.mp4")
         self.open_video_button = QtWidgets.QPushButton(self.tab_2)
         self.open_video_button.setGeometry(QtCore.QRect(490, 20, 71, 20))
         self.open_video_button.setObjectName("open_video_button")

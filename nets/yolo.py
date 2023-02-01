@@ -238,7 +238,7 @@ class YoloBody(nn.Module):
         depth, width    = depth_dict[phi], width_dict[phi]
         depthwise       = True if phi == 'nano' else False 
 
-        self.backbone   = YOLOPAFPN(depth, width, depthwise=depthwise)
+        self.backbone   = YOLOPAFPN(depth, width, depthwise=depthwise,act = "mish")
         self.head       = YOLOXHead(num_classes, width, depthwise=depthwise,act="mish")
 
     def forward(self, x):
