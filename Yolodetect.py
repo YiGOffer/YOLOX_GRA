@@ -48,7 +48,7 @@ class Ui_Form(object):
         self.open_weight_path.setGeometry(QtCore.QRect(170, 30, 561, 20))
         self.open_weight_path.setObjectName("open_weight_path")
         #------ 权重文件默认参数设置-----#
-        self.open_weight_path.setText("E:/Graduate/已训练权重以及结果/不同网络机制比较/yoloX_ECA_Mish_mAP89.1/ep200-loss2.422-val_loss2.701.pth")
+        self.open_weight_path.setText("E:/Graduate/已训练权重以及结果/不同网络机制比较/OriYoloX_87.97/ep200-loss2.340-val_loss2.682.pth")
         self.yolo._defaults["model_path"] = self.open_weight_path.text()
         #------ 权重文件默认参数设置-----#
         self.select_weith_pth_button = QtWidgets.QPushButton(self.groupBox)

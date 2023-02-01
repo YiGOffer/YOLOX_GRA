@@ -6,7 +6,7 @@ import torch
 import torch.nn as nn
 
 from .darknet import BaseConv, CSPDarknet, CSPLayer, DWConv
-from .attention import ECA # 1、导入注意力机制模块
+
 
 class YOLOXHead(nn.Module):
     def __init__(self, num_classes, width = 1.0, in_channels = [256, 512, 1024], act = "silu", depthwise = False,):
@@ -115,9 +115,6 @@ class YOLOPAFPN(nn.Module):
             depthwise = depthwise,
             act = act,
         )  
-        self.ca_3 = ECA(int(in_channels[2] * width)) # 对应dark5输出的1024维度通道
-        self.ca_2 = ECA(int(in_channels[1] * width))   # 对应dark4输出的512维度通道
-        self.ca_1 = ECA(int(in_channels[0] * width))   # 对应dark3输出的256维度通道
 
         #-------------------------------------------#
         #   40, 40, 512 -> 40, 40, 256
@@ -170,9 +167,7 @@ class YOLOPAFPN(nn.Module):
     def forward(self, input):
         out_features            = self.backbone.forward(input)
         [feat1, feat2, feat3]   = [out_features[f] for f in self.in_features]
-        feat1 = self.ca_1(feat1)
-        feat2 = self.ca_2(feat2)
-        feat3 = self.ca_3(feat3)
+
         #-------------------------------------------#
         #   20, 20, 1024 -> 20, 20, 512
         #-------------------------------------------#
@@ -243,7 +238,7 @@ class YoloBody(nn.Module):
         depth, width    = depth_dict[phi], width_dict[phi]
         depthwise       = True if phi == 'nano' else False 
 
-        self.backbone   = YOLOPAFPN(depth, width, depthwise=depthwise,act = "mish")
+        self.backbone   = YOLOPAFPN(depth, width, depthwise=depthwise)
         self.head       = YOLOXHead(num_classes, width, depthwise=depthwise)
 
     def forward(self, x):
