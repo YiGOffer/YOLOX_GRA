@@ -63,7 +63,7 @@ if __name__ == "__main__":
         else:
             r_image = yolo.detect_image(image)
             # r_image.show()
-            r_image.save("E:\Graduate\论文用图\yolo图片对比\mish_ori_"+str(time.time())+".jpg")
+            r_image.save("E:\Graduate\论文用图\yolo图片对比\ori_"+str(time.time())+".jpg")
 
     elif mode == "video":
         capture = cv2.VideoCapture(video_path)
