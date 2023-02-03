@@ -24,7 +24,7 @@ class YOLO(object):
         #   验证集损失较低不代表mAP较高，仅代表该权值在验证集上泛化性能较好。
         #   如果出现shape不匹配，同时要注意训练时的model_path和classes_path参数的修改
         #--------------------------------------------------------------------------#
-        "model_path"        : 'logs\ep099-loss2.675-val_loss2.641.pth',
+        "model_path"        : 'E:\Graduate\已训练权重以及结果\不同网络机制比较\OriYoloX_87.97\ep200-loss2.340-val_loss2.682.pth',
         "classes_path"      : 'model_data/my_classes.txt',
         #---------------------------------------------------------------------#
         #   输入图片的大小，必须为32的倍数。
@@ -81,7 +81,7 @@ class YOLO(object):
         self.colors = list(map(lambda x: colorsys.hsv_to_rgb(*x), hsv_tuples))
         self.colors = list(map(lambda x: (int(x[0] * 255), int(x[1] * 255), int(x[2] * 255)), self.colors))
         self.generate()
-        
+
     def yoloinit(self, **kwargs):#界面用
         
         self.__dict__.update(self._defaults)
