@@ -24,7 +24,7 @@ class YOLO(object):
         #   验证集损失较低不代表mAP较高，仅代表该权值在验证集上泛化性能较好。
         #   如果出现shape不匹配，同时要注意训练时的model_path和classes_path参数的修改
         #--------------------------------------------------------------------------#
-        "model_path"        : 'logs\ep099-loss2.675-val_loss2.641.pth',
+        "model_path"        : 'E:\Graduate\已训练权重以及结果\不同网络机制比较\yoloX_mish_mAP88.05\ep200-loss2.624-val_loss2.765.pth',
         "classes_path"      : 'model_data/my_classes.txt',
         #---------------------------------------------------------------------#
         #   输入图片的大小，必须为32的倍数。
@@ -64,8 +64,8 @@ class YOLO(object):
     #---------------------------------------------------#
     #   初始化YOLO
     #---------------------------------------------------#
-    #def __init__(self, **kwargs):#训练用
-    def yoloinit(self, **kwargs):#界面用
+    def __init__(self, **kwargs):#训练用
+    # def yoloinit(self, **kwargs):#界面用
         
         self.__dict__.update(self._defaults)
         for name, value in kwargs.items():
