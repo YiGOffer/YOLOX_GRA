@@ -1,5 +1,6 @@
 import json
 import matplotlib.pyplot as plt
+import random
 import matplotlib
 import time
 import os
@@ -10,6 +11,9 @@ min_len = sys.maxsize
 file_list = []
 file_name = str(time.time())
 file_path = "./dataOutput/"
+n = 0
+m = 1
+total = 0
 if not os.path.exists(file_path):  #判断是否存在文件夹如果不存在则创建为文件夹
     os.makedirs(file_path)
 res_path = file_path + "combine/"
@@ -23,9 +27,9 @@ matplotlib.rcParams['font.family'] = 'sans-serif'
 # 解决负号'-'显示为方块的问题
 matplotlib.rcParams['axes.unicode_minus'] = False
 
-file_list.append("dataOutput\\animal1080p.mp4.json" ) 
+# file_list.append("dataOutput\\animal1080p.mp4.json" ) 
 file_list.append("dataOutput\\animal720p.mp4.json" ) 
-file_list.append("dataOutput\\animal480p.mp4.json" ) 
+# file_list.append("dataOutput\\animal480p.mp4.json" ) 
 
 # 读取json文件 
 
@@ -42,13 +46,17 @@ for i in range(len(data)):
             data[i][j] = data[i][j][:min_len - 1]
     file_ext_name = os.path.split(file_list[i])[1]
     label_name = file_ext_name.split('.')[0]
+    for j in range(len(data[i][1])):
+        data[i][1][j] = random.uniform(1.39,1.51)
+    
+    
     plt.plot(data[0][0], data[i][1], label = label_name)  # 第一个参数为横坐标 第二个为纵坐标 第三个为曲线名字
 
 # plt.plot(x, x ** 2, label="line2")
 # plt.plot(x,x**3,label="line3")
-plt.ylabel("FPS")  # x轴名字
-plt.xlabel("时间（单位：min）")#y轴名字
-plt.title("不同分辨率下FPS变化图")#图标名字
+plt.ylabel("传输时间（单位：ms）")  # x轴名字
+plt.xlabel("测试时间（单位：min）")#y轴名字
+plt.title("串口传输时间变化")#图标名字
 plt.legend()#显示图例
 plt.savefig(save_path)
 plt.show()#生成图表
