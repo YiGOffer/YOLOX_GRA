@@ -241,7 +241,7 @@ class Ui_Form(object):
         self.start_YOLOdetect_button.setText(_translate("Form", "开始YOLO检测"))
         self.select_classes_txt_button.setText(_translate("Form", "浏览"))
         self.label_7.setText(_translate("Form", "classes.txt文件路径："))
-        self.groupBox_2.setTitle(_translate("Form", "串口\雷达输出操作区"))
+        self.groupBox_2.setTitle(_translate("Form", "串口\距离输出操作区"))
         self.label_8.setText(_translate("Form", "串口名："))
         self.label_9.setText(_translate("Form", "波特率："))
         self.label_10.setText(_translate("Form", "TimeOut："))
