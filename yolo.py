@@ -25,7 +25,7 @@ class YOLO(object):
         #   如果出现shape不匹配，同时要注意训练时的model_path和classes_path参数的修改
         #--------------------------------------------------------------------------#
         "model_path"        : 'E:\Graduate\已训练权重以及结果\不同网络机制比较\yoloX_ECA_Mish_mAP89.1\ep200-loss2.422-val_loss2.701.pth',
-        "classes_path"      : 'model_data/my_classes.txt',
+        "classes_path"      : 'E:\\Graduate\\Code\\YOLOX_GRA\\model_data\\my_classes.txt',
         #---------------------------------------------------------------------#
         #   输入图片的大小，必须为32的倍数。
         #---------------------------------------------------------------------#
