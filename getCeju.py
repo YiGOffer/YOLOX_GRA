@@ -21,27 +21,28 @@ oriYoloCData = [13.483, 9.855, 7.522, 4.046, 9.245, 14.218]
 gYoloZ = [2.876,3.621,6.132,5.798,5.591,5.433]
 gYoloH = [4.416,3.330,6.236,5.319,6.334,7.317]
 gYoloC = [2.426,6.850,5.033,6.057,7.641,15.117]
-num = input("请输入想生成的图像：")
+# num = input("请输入想生成的图像：")
+
+num = 1
+file_name = ""
 if num == 1:
     # 纵向曲线对比
-    plt.plot(xData, oriYoloZData, label = "实验1")  # 第一个参数为横坐标 第二个为纵坐标 第三个为曲线名字
-    plt.plot(xData, gYoloZ, label = "实验2")  # 第一个参数为横坐标 第二个为纵坐标 第三个为曲线名字
+    plt.plot(xData, oriYoloZData, label = "实验1",marker='.')  # 第一个参数为横坐标 第二个为纵坐标 第三个为曲线名字
+    plt.plot(xData, gYoloZ, label = "实验2",marker='.')  # 第一个参数为横坐标 第二个为纵坐标 第三个为曲线名字
     plt.title("纵向距离误差对比")#图标名字
     file_name =" 纵向距离误差对比_" + str(time.time())
 elif num == 2:
     # 横向
-    plt.plot(xData, oriYoloHData, label = "实验1")  # 第一个参数为横坐标 第二个为纵坐标 第三个为曲线名字
-    plt.plot(xData, gYoloH, label = "实验2")  # 第一个参数为横坐标 第二个为纵坐标 第三个为曲线名字
+    plt.plot(xData, oriYoloHData, label = "实验1", marker='.')  # 第一个参数为横坐标 第二个为纵坐标 第三个为曲线名字
+    plt.plot(xData, gYoloH, label = "实验2", marker='.')  # 第一个参数为横坐标 第二个为纵坐标 第三个为曲线名字
     plt.title("横向距离误差对比")#图标名字
     file_name =" 横向距离误差对比_" + str(time.time())
 elif num == 3:
     # 垂直曲线对比
-    plt.plot(xData, oriYoloCData, label = "实验1")  # 第一个参数为横坐标 第二个为纵坐标 第三个为曲线名字
-    plt.plot(xData, gYoloC, label = "实验2")  # 第一个参数为横坐标 第二个为纵坐标 第三个为曲线名字
+    plt.plot(xData, oriYoloCData, label = "实验1", marker='.')  # 第一个参数为横坐标 第二个为纵坐标 第三个为曲线名字
+    plt.plot(xData, gYoloC, label = "实验2",marker='.')  # 第一个参数为横坐标 第二个为纵坐标 第三个为曲线名字
     plt.title("垂直距离误差对比")#图标名字
     file_name =" 垂直距离误差对比_" + str(time.time())
-
-
 
 
 
