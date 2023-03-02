@@ -55,7 +55,7 @@ if __name__ == "__main__":
         比如判断if predicted_class == 'car': 即可判断当前目标是否为车，然后记录数量即可。利用draw.text即可写字。
         '''
         # img = input('Input image filename:')
-        img = 'E:\Graduate\Code\YOLOX_GRA\img\行人1.jpg'
+        img = 'E:\Graduate\Code\YOLOX_GRA\img\行人6.jpeg'
         try:
             image = Image.open(img)
         except:
