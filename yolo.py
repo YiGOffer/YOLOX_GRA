@@ -174,6 +174,8 @@ class YOLO(object):
         #---------------------------------------------------------#
         for i, c in list(enumerate(top_label)):
             predicted_class = self.class_names[int(c)]
+            if predicted_class == 'car': 
+                continue
             box             = top_boxes[i]
             score           = top_conf[i]
 
@@ -299,7 +301,7 @@ class YOLO(object):
             score           = str(top_conf[i])
 
             top, left, bottom, right = box
-            if predicted_class not in class_names:
+            if predicted_class not in class_names or predicted_class != 'person':
                 continue
             f.write("%s %s %s %s %s %s\n" % (predicted_class, score[:6], str(int(left)), str(int(top)), str(int(right)),str(int(bottom))))
             
