@@ -186,7 +186,11 @@ class YOLO(object):
             bottom  = min(image.size[1], np.floor(bottom).astype('int32'))
             right   = min(image.size[0], np.floor(right).astype('int32'))
 
-            label = '{} {:.2f}'.format(predicted_class, score)
+            zong= "纵:"+str(33.185)
+            hen = "横:"+ str(1.75)
+            chui= "垂:"+str(33.138)
+
+            label = '{} {:.2f} {} {} {}'.format(predicted_class, score, zong, hen, chui)
             draw = ImageDraw.Draw(image)
             label_size = draw.textsize(label, font)
             label = label.encode('utf-8')
@@ -236,7 +240,7 @@ class YOLO(object):
             #---------------------------------------------------------#
             results = non_max_suppression(outputs, self.num_classes, self.input_shape, 
                         image_shape, self.letterbox_image, conf_thres = self.confidence, nms_thres = self.nms_iou)
-                                                  
+            
         t1 = time.time()
         for _ in range(test_interval):
             with torch.no_grad():
@@ -287,7 +291,7 @@ class YOLO(object):
             #---------------------------------------------------------#
             results = non_max_suppression(outputs, self.num_classes, self.input_shape, 
                         image_shape, self.letterbox_image, conf_thres = self.confidence, nms_thres = self.nms_iou)
-                                                    
+            
             if results[0] is None:
                 return
 
