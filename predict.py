@@ -55,7 +55,8 @@ if __name__ == "__main__":
         比如判断if predicted_class == 'car': 即可判断当前目标是否为车，然后记录数量即可。利用draw.text即可写字。
         '''
         # img = input('Input image filename:')
-        img = 'E:\Graduate\Code\YOLOX_GRA\img\测距\\20米测距多点.jpg'
+        # img = 'E:\Graduate\Code\YOLOX_GRA\img\测距\\20米测距多点.jpg'
+        img = 'E:\Graduate\论文用图\测试\\1.jpeg'
         try:
             image = Image.open(img)
         except:
@@ -63,7 +64,7 @@ if __name__ == "__main__":
         else:
             r_image = yolo.detect_image(image)
             r_image.show()
-            r_image.save("E:\Graduate\论文用图\yolo图片对比\测距实验对比\ori_"+str(time.time())+"ceju.jpg")
+            r_image.save("E:\Graduate\论文用图\yolo图片对比\测距实验对比\ori_"+str(time.time())+"ceju20230319.jpg")
 
     elif mode == "video":
         capture = cv2.VideoCapture(video_path)

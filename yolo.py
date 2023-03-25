@@ -186,11 +186,10 @@ class YOLO(object):
             bottom  = min(image.size[1], np.floor(bottom).astype('int32'))
             right   = min(image.size[0], np.floor(right).astype('int32'))
 
-            zong= "纵:"+str(33.185)
-            hen = "横:"+ str(1.75)
-            chui= "垂:"+str(33.138)
+            zong= "纵:"+str(22.146)
+            hen = "横:"+ str(1.88)
 
-            label = '{} {:.2f} {} {} {}'.format(predicted_class, score, zong, hen, chui)
+            label = '{} {:.2f} {} {}'.format(predicted_class, score, zong, hen)
             draw = ImageDraw.Draw(image)
             label_size = draw.textsize(label, font)
             label = label.encode('utf-8')

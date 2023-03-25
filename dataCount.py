@@ -18,7 +18,7 @@ def image_count():  # path 是原来xml文件的完整路径
             for countName in tar:
                 if name == countName:
                     tar[name] = tar[name] + 1
-        print('处理第'+ str(num+15000) +'张')
+        print('处理第'+ str(num+6351) +'张')
     print('——————————————————————————————————————————————————————————————————————————————————————————————————')
     print('\nVOC数据集已剔除11个分类：aeroplane,bicycle,bird,boat,bottle,chair,diningtable,pottedplant,sofa,train,tvmonitor')
     print('处理后的标注目标框的统计如下:')
