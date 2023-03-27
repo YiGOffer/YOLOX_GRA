@@ -565,6 +565,7 @@ class Ui_Form(object):
 
     #串口发送
     def send_msg(self,x):
+            tagetName =""
             try:
                 self.tranPoint1 = 100
                 self.prefixFormatMsg = str(self.sendMsgIndex) + time.strftime("%Y-%m-%d %H:%M:%S")
@@ -581,19 +582,19 @@ class Ui_Form(object):
 
                 if   x == 1 and int(curDist) < 200 :
                     send_datas=bytearray([0x01,0x0d,0x0a])
-                    strsend = self.prefixFormatMsg + time.strftime("%Y-%m-%d %H:%M:%S")+"已发送数据：1" 
+                    show_info = self.prefixFormatMsg + time.strftime("%Y-%m-%d %H:%M:%S")+"前方有" + tagetName + "进入预警范围"
                 elif x == 0:
                     send_datas=bytearray([0x00,0x0d,0x0a])
-                    strsend = self.prefixFormatMsg +"已发送数据：0"
+                    show_info = self.prefixFormatMsg +"已发送数据：0"
                 else: 
                     send_datas=bytearray([0x00,0x0d,0x0a])
-                    strsend = self.prefixFormatMsg +"已发送数据：0"
+                    show_info = self.prefixFormatMsg +"已发送数据：0"
                 print(send_datas)
                 self.ser.write(send_datas)
                 #将byte转换为 int
                 # pre_datas = int.from_bytes(send_datas, byteorder='big', signed=False)
-                # strsend = time.strftime("%Y-%m-%d %H:%M:%S")+"已发送数据：" + str(pre_datas)
-                self.textEdit_Uart.append(strsend)
+                # show_info = time.strftime("%Y-%m-%d %H:%M:%S")+"已发送数据：" + str(pre_datas)
+                self.textEdit_Uart.append(show_info)
             except Exception as exc:
                 self.textEdit_Uart.append("发送异常")
                 print("发送异常",exc)
