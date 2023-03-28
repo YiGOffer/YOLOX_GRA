@@ -68,7 +68,7 @@ class Ui_Form(object):
         self.open_video_path = QtWidgets.QLineEdit(self.tab_2)
         self.open_video_path.setGeometry(QtCore.QRect(70, 20, 401, 20))
         self.open_video_path.setObjectName("open_video_path")
-        self.open_video_path.setText("E:/Graduate/istockphoto-1305469222-640_adpp_is.mp4")
+        self.open_video_path.setText("E:/Graduate/视频/农场实地/2.mp4")
         self.open_video_button = QtWidgets.QPushButton(self.tab_2)
         self.open_video_button.setGeometry(QtCore.QRect(490, 20, 71, 20))
         self.open_video_button.setObjectName("open_video_button")
@@ -338,11 +338,12 @@ class Ui_Form(object):
         
         #     size    = (int(self.cap.get(cv2.CAP_PROP_FRAME_WIDTH)), int(self.cap.get(cv2.CAP_PROP_FRAME_HEIGHT)))
         #     out     = cv2.VideoWriter(self.video_img_save_path, fourcc, self.video_fps, size)
-        #-----------------------#
+        # -----------------------#
         # 用于保存图像
-        #-----------------------#
+        # -----------------------#
         # dir_path=os.getcwd()
-        # camera_source =dir_path+ "\\data\\test\\2.jpg"
+        # print(camera_source)
+        # camera_source =dir_path+ "\\data\\test\\"+self.open_video_path.text()+str(time.time())+".jpg"
         # cv2.imwrite(camera_source, self.image)
         #------------------------------------------------------------#
         # 设置视频宽高
@@ -472,6 +473,7 @@ class Ui_Form(object):
         frame = np.array(self.yolo.detect_image(frame))
         # RGBtoBGR满足opencv显示格式
         frame = cv2.cvtColor(frame,cv2.COLOR_RGB2BGR)
+
         #若串口打开 获取是否检测到目标的标志位
         if(self.uartOpenFlag==1):
                 isFind = self.yolo.getS()
@@ -501,13 +503,26 @@ class Ui_Form(object):
         self.spend.append(time.time() - self.start_time) 
         # self.fps  = 30.09
         print("检测视频fps= %.2f"%(self.fps))
-        show = cv2.putText(frame, "fps= %.2f"%(self.fps), (0, 40), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+        show = cv2.putText(frame, "fps= %.2f"%(self.fps), (100, 80), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+        # 路径保存
+        dir_path=os.getcwd()
+        vName = os.path.basename(self.open_video_path.text())
+        vName = vName.split('.')[0]
+        camera_source =dir_path+"\\data\\"+vName 
+        if not os.path.exists(camera_source):
+            os.makedirs(camera_source)
+        iName = time.strftime("%Y%m%d%H%M%S")+".jpg"
+        camera_source = camera_source + "\\" +iName
+        # print(camera_source)
+        if cv2.imwrite(camera_source, show):
+            print("保存成功")
         show = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-
+        
         showImage = QtGui.QImage(show.data, show.shape[1], show.shape[0],3 * show.shape[1], QtGui.QImage.Format_RGB888)
 
 
         self.label_right.setPixmap(QtGui.QPixmap.fromImage(showImage))
+
     def diy_distanceNum_click(self):
         self.distMode = 1 # 0 不可编辑  1 可编辑
 
