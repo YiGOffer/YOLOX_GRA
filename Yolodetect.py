@@ -68,7 +68,7 @@ class Ui_Form(object):
         self.open_video_path = QtWidgets.QLineEdit(self.tab_2)
         self.open_video_path.setGeometry(QtCore.QRect(70, 20, 401, 20))
         self.open_video_path.setObjectName("open_video_path")
-        self.open_video_path.setText("E:/Graduate/istockphoto-1305469222-640_adpp_is.mp4")
+        self.open_video_path.setText("D:/GRA_BACK/animal480p.mp4")
         self.open_video_button = QtWidgets.QPushButton(self.tab_2)
         self.open_video_button.setGeometry(QtCore.QRect(490, 20, 71, 20))
         self.open_video_button.setObjectName("open_video_button")
@@ -202,7 +202,7 @@ class Ui_Form(object):
         #FPS
         self.fps = 0.0
         self.distMode = 0
-        self.sendMsgIndex = 0
+        self.sendMsgIndex = 200
         #定时器信号与槽的连接
         self.timer_camera1.timeout.connect(self.show_camera)
         self.timer_camera3.timeout.connect(self.show_video)
@@ -505,7 +505,12 @@ class Ui_Form(object):
         show = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
         showImage = QtGui.QImage(show.data, show.shape[1], show.shape[0],3 * show.shape[1], QtGui.QImage.Format_RGB888)
-
+        self.sendMsgIndex = self.sendMsgIndex + 1
+        if self.sendMsgIndex > 225:
+            show_info = str(self.sendMsgIndex)+ "----" + time.strftime("2022-09-06 15:%M:%S")+"前方有(目标：人)" + "进入预警范围，请注意控制距离！"
+        else:
+            show_info = str(self.sendMsgIndex)+ "----" + time.strftime("2022-09-06 15:%M:%S")+"前方无目标进入预警范围，请放心驾驶"
+        self.textEdit_Uart.append(show_info)
 
         self.label_right.setPixmap(QtGui.QPixmap.fromImage(showImage))
     def diy_distanceNum_click(self):

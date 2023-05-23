@@ -8,7 +8,7 @@ img
 myVideoSave
 yolo_weights.pth
 __pycache__
-map_out
+*map_out*
 model_data
 dataOutput
 data

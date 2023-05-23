@@ -46,7 +46,7 @@ if __name__ == "__main__":
     #-------------------------------------------------------#
     #   结果输出的文件夹，默认为map_out
     #-------------------------------------------------------#
-    map_out_path    = 'map_out'
+    map_out_path    = 'ori_map_out'
 
     image_ids = open(os.path.join(VOCdevkit_path, "VOC2007/ImageSets/Main/test.txt")).read().strip().split()
 
@@ -89,6 +89,8 @@ if __name__ == "__main__":
                     obj_name = obj.find('name').text
                     if obj_name not in class_names:
                         continue
+                    # if obj_name not in ['cow','horse','person']:
+                    #     continue
                     bndbox  = obj.find('bndbox')
                     left    = bndbox.find('xmin').text
                     top     = bndbox.find('ymin').text
