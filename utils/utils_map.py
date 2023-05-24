@@ -182,6 +182,8 @@ def draw_plot_func(dictionary, n_classes, window_title, plot_title, x_label, out
     # unpacking the list of tuples into two lists
     sorted_keys, sorted_values = zip(*sorted_dic_by_value)
     # 
+    plt.rcParams["font.sans-serif"]=["SimHei"] #设置字体
+    plt.rcParams['axes.unicode_minus'] = False
     if true_p_bar != "":
         """
          Special case to draw in:
@@ -234,8 +236,14 @@ def draw_plot_func(dictionary, n_classes, window_title, plot_title, x_label, out
     # set window title
     fig.canvas.set_window_title(window_title)
     # write classes in y axis
-    tick_font_size = 12
-    plt.yticks(range(n_classes), sorted_keys, fontsize=tick_font_size)
+    tick_font_size = 18
+    # print(">>>>>>><>")
+    # print(sorted_keys)
+    my_keys = sorted_keys
+    my_keys=['人' if i =='person' else i for i in my_keys]
+    my_keys=['牛' if i =='cow' else i for i in my_keys]
+    my_keys=['马' if i =='horse' else i for i in my_keys]
+    plt.yticks(range(n_classes), my_keys, fontsize=tick_font_size)
     """
      Re-scale height accordingly
     """
@@ -253,10 +261,10 @@ def draw_plot_func(dictionary, n_classes, window_title, plot_title, x_label, out
         fig.set_figheight(figure_height)
 
     # set plot title
-    plt.title(plot_title, fontsize=14)
+    plt.title(plot_title, fontsize=18)
     # set axis titles
     # plt.xlabel('classes')
-    plt.xlabel(x_label, fontsize='large')
+    plt.xlabel(x_label, fontsize=18)
     # adjust size of window
     fig.tight_layout()
     # save the plot
@@ -765,7 +773,7 @@ def get_map(MINOVERLAP, draw_plot, path = './map_out'):
     if draw_plot:
         window_title = "mAP"
         plot_title = "mAP = {0:.2f}%".format(mAP*100)
-        x_label = "Average Precision"
+        x_label = "平均精度"
         output_path = RESULTS_FILES_PATH + "/mAP.png"
         to_show = True
         plot_color = 'royalblue'
