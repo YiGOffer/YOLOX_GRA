@@ -46,7 +46,7 @@ if __name__ == "__main__":
     #-------------------------------------------------------#
     #   结果输出的文件夹，默认为map_out
     #-------------------------------------------------------#
-    map_out_path    = 'cbam_map_out'
+    map_out_path    = 'sam_map_out'
 
     image_ids = open(os.path.join(VOCdevkit_path, "VOC2007/ImageSets/Main/test.txt")).read().strip().split()
 

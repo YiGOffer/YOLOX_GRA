@@ -24,7 +24,7 @@ class YOLO(object):
         #   验证集损失较低不代表mAP较高，仅代表该权值在验证集上泛化性能较好。
         #   如果出现shape不匹配，同时要注意训练时的model_path和classes_path参数的修改
         #--------------------------------------------------------------------------#
-        "model_path"        : 'E:\\Graduate\\已训练权重以及结果\\不同网络机制比较\\mish_CBMA_mAP84.43\\ep200-loss2.898-val_loss2.919.pth',
+        "model_path"        : 'E:\\Graduate\\已训练权重以及结果\\注意力机制比较\\YoloX_SE_Mish_mAP88.16\\ep200-loss2.465-val_loss2.761.pth',
         "classes_path"      : 'E:\\Graduate\\Code\\YOLOX_GRA\\model_data\\my_classes.txt',
         #---------------------------------------------------------------------#
         #   输入图片的大小，必须为32的倍数。
