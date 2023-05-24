@@ -181,6 +181,7 @@ def draw_plot_func(dictionary, n_classes, window_title, plot_title, x_label, out
     sorted_dic_by_value = sorted(dictionary.items(), key=operator.itemgetter(1))
     # unpacking the list of tuples into two lists
     sorted_keys, sorted_values = zip(*sorted_dic_by_value)
+    my_font_map_size = 25
     # 
     plt.rcParams["font.sans-serif"]=["SimHei"] #设置字体
     plt.rcParams['axes.unicode_minus'] = False
@@ -229,14 +230,14 @@ def draw_plot_func(dictionary, n_classes, window_title, plot_title, x_label, out
             str_val = " " + str(val) # add a space before
             if val < 1.0:
                 str_val = " {0:.2f}".format(val)
-            t = plt.text(val, i, str_val, color=plot_color, va='center', fontweight='bold')
+            t = plt.text(val, i, str_val, color=plot_color, va='center', fontweight='bold',size = my_font_map_size - 5)
             # re-set axes to show number inside the figure
             if i == (len(sorted_values)-1): # largest bar
                 adjust_axes(r, t, fig, axes)
     # set window title
     fig.canvas.set_window_title(window_title)
     # write classes in y axis
-    tick_font_size = 18
+    tick_font_size = my_font_map_size
     # print(">>>>>>><>")
     # print(sorted_keys)
     my_keys = sorted_keys
@@ -244,6 +245,8 @@ def draw_plot_func(dictionary, n_classes, window_title, plot_title, x_label, out
     my_keys=['牛' if i =='cow' else i for i in my_keys]
     my_keys=['马' if i =='horse' else i for i in my_keys]
     plt.yticks(range(n_classes), my_keys, fontsize=tick_font_size)
+    plt.xticks(np.arange(0.0, 1.05,0.2),fontproperties = 'Times New Roman', size = tick_font_size)
+    
     """
      Re-scale height accordingly
     """
@@ -261,10 +264,10 @@ def draw_plot_func(dictionary, n_classes, window_title, plot_title, x_label, out
         fig.set_figheight(figure_height)
 
     # set plot title
-    plt.title(plot_title, fontsize=18)
+    plt.title(plot_title, fontsize=tick_font_size)
     # set axis titles
     # plt.xlabel('classes')
-    plt.xlabel(x_label, fontsize=18)
+    plt.xlabel(x_label, fontsize=tick_font_size)
     # adjust size of window
     fig.tight_layout()
     # save the plot
@@ -775,7 +778,7 @@ def get_map(MINOVERLAP, draw_plot, path = './map_out'):
         plot_title = "mAP = {0:.2f}%".format(mAP*100)
         x_label = "平均精度"
         output_path = RESULTS_FILES_PATH + "/mAP.png"
-        to_show = True
+        to_show = False
         plot_color = 'royalblue'
         draw_plot_func(
             ap_dictionary,
@@ -878,7 +881,7 @@ def preprocess_dr(dr_path, class_names):
             result["score"]         = float(confidence)
             results.append(result)
     return results
- 
+
 def get_coco_map(class_names, path):
     from pycocotools.coco import COCO
     from pycocotools.cocoeval import COCOeval
