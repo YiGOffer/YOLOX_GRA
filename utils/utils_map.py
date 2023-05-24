@@ -778,7 +778,7 @@ def get_map(MINOVERLAP, draw_plot, path = './map_out'):
         plot_title = "mAP = {0:.2f}%".format(mAP*100)
         x_label = "平均精度"
         output_path = RESULTS_FILES_PATH + "/mAP.png"
-        to_show = True
+        to_show = False
         plot_color = 'royalblue'
         draw_plot_func(
             ap_dictionary,
