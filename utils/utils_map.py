@@ -182,6 +182,8 @@ def draw_plot_func(dictionary, n_classes, window_title, plot_title, x_label, out
     # unpacking the list of tuples into two lists
     sorted_keys, sorted_values = zip(*sorted_dic_by_value)
     # 
+    plt.rcParams["font.sans-serif"]=["SimHei"] #设置字体
+    plt.rcParams['axes.unicode_minus'] = False
     if true_p_bar != "":
         """
          Special case to draw in:
@@ -234,8 +236,14 @@ def draw_plot_func(dictionary, n_classes, window_title, plot_title, x_label, out
     # set window title
     fig.canvas.set_window_title(window_title)
     # write classes in y axis
-    tick_font_size = 12
-    plt.yticks(range(n_classes), sorted_keys, fontsize=tick_font_size)
+    tick_font_size = 18
+    # print(">>>>>>><>")
+    # print(sorted_keys)
+    my_keys = sorted_keys
+    my_keys=['人' if i =='person' else i for i in my_keys]
+    my_keys=['牛' if i =='cow' else i for i in my_keys]
+    my_keys=['马' if i =='horse' else i for i in my_keys]
+    plt.yticks(range(n_classes), my_keys, fontsize=tick_font_size)
     """
      Re-scale height accordingly
     """
