@@ -261,10 +261,10 @@ def draw_plot_func(dictionary, n_classes, window_title, plot_title, x_label, out
         fig.set_figheight(figure_height)
 
     # set plot title
-    plt.title(plot_title, fontsize=14)
+    plt.title(plot_title, fontsize=18)
     # set axis titles
     # plt.xlabel('classes')
-    plt.xlabel(x_label, fontsize='large')
+    plt.xlabel(x_label, fontsize=18)
     # adjust size of window
     fig.tight_layout()
     # save the plot
@@ -773,7 +773,7 @@ def get_map(MINOVERLAP, draw_plot, path = './map_out'):
     if draw_plot:
         window_title = "mAP"
         plot_title = "mAP = {0:.2f}%".format(mAP*100)
-        x_label = "Average Precision"
+        x_label = "平均精度"
         output_path = RESULTS_FILES_PATH + "/mAP.png"
         to_show = True
         plot_color = 'royalblue'
