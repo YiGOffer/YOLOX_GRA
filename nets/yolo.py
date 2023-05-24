@@ -6,7 +6,7 @@ import torch
 import torch.nn as nn
 
 from .darknet import BaseConv, CSPDarknet, CSPLayer, DWConv
-from .attention import ECA # 1、导入注意力机制模块
+from .attention import CBAM # 1、导入注意力机制模块
 
 class YOLOXHead(nn.Module):
     def __init__(self, num_classes, width = 1.0, in_channels = [256, 512, 1024], act = "silu", depthwise = False,):
@@ -115,9 +115,9 @@ class YOLOPAFPN(nn.Module):
             depthwise = depthwise,
             act = act,
         )  
-        self.ca_3 = ECA(int(in_channels[2] * width)) # 对应dark5输出的1024维度通道
-        self.ca_2 = ECA(int(in_channels[1] * width))   # 对应dark4输出的512维度通道
-        self.ca_1 = ECA(int(in_channels[0] * width))   # 对应dark3输出的256维度通道
+        self.ca_3 = CBAM(int(in_channels[2] * width)) # 对应dark5输出的1024维度通道
+        self.ca_2 = CBAM(int(in_channels[1] * width))   # 对应dark4输出的512维度通道
+        self.ca_1 = CBAM(int(in_channels[0] * width))   # 对应dark3输出的256维度通道
 
         #-------------------------------------------#
         #   40, 40, 512 -> 40, 40, 256
