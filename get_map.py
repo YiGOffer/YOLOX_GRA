@@ -89,7 +89,8 @@ if __name__ == "__main__":
                     obj_name = obj.find('name').text
                     if obj_name not in class_names:
                         continue
-                    if obj_name not in ["person", "cow", "horse"]:
+                    # if obj_name not in ["person", "cow", "horse"]:
+                    if obj_name not in ["person", "sheep"]:
                         continue
                     bndbox  = obj.find('bndbox')
                     left    = bndbox.find('xmin').text
