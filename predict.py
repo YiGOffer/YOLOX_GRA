@@ -55,15 +55,15 @@ if __name__ == "__main__":
         比如判断if predicted_class == 'car': 即可判断当前目标是否为车，然后记录数量即可。利用draw.text即可写字。
         '''
         # img = input('Input image filename:')
-        img = 'E:\\Graduate\\Code\\YOLOX_GRA\\img\\predestrain1.jpeg'
+        img = 'D:\GRA_BACK\论文用图\羊\\2023_05_27_10_34_IMG_3095.jpg'
         try:
             image = Image.open(img)
         except:
             print('Open Error! Try again!')
         else:
             r_image = yolo.detect_image(image)
-            # r_image.show()
-            r_image.save("E:\Graduate\论文用图\yolo图片对比\行人图片对比\eca_"+str(time.time())+".jpg")
+            r_image.show()
+            r_image.save("D:\GRA_BACK\论文用图\羊\输出\eca_"+str(time.time())+".jpg")
 
     elif mode == "video":
         capture = cv2.VideoCapture(video_path)
