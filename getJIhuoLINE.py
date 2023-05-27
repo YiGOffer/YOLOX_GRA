@@ -3,7 +3,7 @@ import time
 import torch
 import torch.nn.functional as F
 import matplotlib.pyplot as plt
-
+plt.rcParams['font.size'] = 25
 tar = "Mish"
 file_name =tar + str(time.time())
 

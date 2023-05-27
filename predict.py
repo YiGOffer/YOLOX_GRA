@@ -56,7 +56,7 @@ if __name__ == "__main__":
         '''
         # img = input('Input image filename:')
         # img = 'E:\Graduate\Code\YOLOX_GRA\img\测距\\20米测距多点.jpg'
-        img = 'E:\Graduate\论文用图\测试\\1.jpeg'
+        img = 'D:\GRA_BACK\论文用图\羊\\2023_05_27_10_34_IMG_3095.jpg'
         try:
             image = Image.open(img)
         except:
@@ -64,7 +64,7 @@ if __name__ == "__main__":
         else:
             r_image = yolo.detect_image(image)
             r_image.show()
-            r_image.save("E:\Graduate\论文用图\yolo图片对比\测距实验对比\ori_"+str(time.time())+"ceju20230319.jpg")
+            r_image.save("E:\Graduate\论文用图\yolo图片对比\测距实验对比\ori_"+str(time.time())+"Sheep_ceju20230319.jpg")
 
     elif mode == "video":
         capture = cv2.VideoCapture(video_path)
