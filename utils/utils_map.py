@@ -244,6 +244,7 @@ def draw_plot_func(dictionary, n_classes, window_title, plot_title, x_label, out
     my_keys=['人' if i =='person' else i for i in my_keys]
     my_keys=['牛' if i =='cow' else i for i in my_keys]
     my_keys=['马' if i =='horse' else i for i in my_keys]
+    my_keys=['羊' if i =='sheep' else i for i in my_keys]
     plt.yticks(range(n_classes), my_keys, fontsize=tick_font_size)
     plt.xticks(np.arange(0.0, 1.05,0.2),fontproperties = 'Times New Roman', size = tick_font_size)
     
