@@ -186,7 +186,7 @@ class YOLO(object):
 
             zong= "纵:"+str(5.092)
             hen = "横:"+ str(1.95)
-
+            predicted_class = "sheep"
             label = '{} {:.2f} {} {}'.format(predicted_class, score, zong, hen)
             # label = '{} {:.2f}'.format(predicted_class, score)
             draw = ImageDraw.Draw(image)
@@ -200,8 +200,10 @@ class YOLO(object):
                 text_origin = np.array([left, top + 1])
 
             for i in range(thickness):
-                draw.rectangle([left + i, top + i, right - i, bottom - i], outline=self.colors[c])
-            draw.rectangle([tuple(text_origin), tuple(text_origin + label_size)], fill=self.colors[c])
+                # draw.rectangle([left + i, top + i, right - i, bottom - i], outline=self.colors[c])
+                draw.rectangle([left + i, top + i, right - i, bottom - i], outline="pink")
+                
+            draw.rectangle([tuple(text_origin), tuple(text_origin + label_size)], fill="pink")
             draw.text(text_origin, str(label,'UTF-8'), fill=(0, 0, 0), font=font)
             del draw
             setUart = 1
